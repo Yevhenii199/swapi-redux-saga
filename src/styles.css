@@ -6,31 +6,20 @@
     color: black;
 }
 
-input {
-    padding: 10px;
-    margin: 10px;
-    width: 80%;
-}
-
 button {
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
 }
 
-.error {
-    color: red;
-    font-weight: bold;
+ul {
+    display: block;
+    justify-content: center;
+    list-style: none;
 }
 
-pre {
-    text-align: left;
-    background: #f4f4f4;
+input {
     padding: 10px;
-    width: 87%;
-    margin: auto;
-}
-
-footer {
-    margin-top: 20px;
+    margin: 10px;
+    width: 90%;
 }

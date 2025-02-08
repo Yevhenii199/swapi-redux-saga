@@ -1,16 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import swapiReducer from "./swapiSlice";
-import swapiSaga from "./swapiSaga";
+import todoReducer from "./todoSlice";
+import todoSaga from "./todoSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
-    swapi: swapiReducer,
+    todos: todoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
 });
 
-sagaMiddleware.run(swapiSaga);
+sagaMiddleware.run(todoSaga);
+

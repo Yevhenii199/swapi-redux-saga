@@ -1,37 +1,46 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSwapiRequest, clearData } from "./swapiSlice";
+import {
+  fetchTodosRequest,
+  addTodoRequest,
+  deleteTodoRequest,
+  toggleTodoRequest,
+  editTodoRequest,
+  clearTodosRequest,
+} from "./todoSlice";
 
 function App() {
-  const [query, setQuery] = useState("");
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.swapi);
-
-  const handleRequest = () => {
-    if (query.trim() !== "") dispatch(fetchSwapiRequest(query));
-  };
+  const { items, loading } = useSelector((state) => state.todos);
 
   return (
-    <div className="app">
-      <h1>SWAPI Service</h1>
-      <input
-        type="text"
-        placeholder="Введіть запит (наприклад, people/1)"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={handleRequest} disabled={loading}>
-        {loading ? "Завантаження..." : "Request"}
-      </button>
+    <div class="app">
+      <h1>Redux-Saga TODO</h1>
+      <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Нове завдання" />
 
-      {error && <p className="error">Помилка: {error}</p>}
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      <button onClick={() => dispatch(fetchTodosRequest())}>Завантажити</button>
+      <button onClick={() => dispatch(addTodoRequest(text))}>Додати</button>
+      <button onClick={() => dispatch(clearTodosRequest())}>Очистити</button>
 
-      <footer>
-        <button onClick={() => dispatch(clearData())}>Очистити</button>
-      </footer>
+      {loading && <p>Завантаження...</p>}
+      <ul>
+        {items.map((todo) => (
+          <li key={todo.id}>
+            <span onClick={() => dispatch(toggleTodoRequest(todo.id))}>
+              {todo.completed ? "✅" : "⭕"} {todo.text}
+            </span>
+            <button onClick={() => dispatch(deleteTodoRequest(todo.id))}>❌</button>
+            <button onClick={() => dispatch(editTodoRequest({ id: todo.id, text: "Новий текст" }))}>
+              ✏️
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export default App;
+
+
